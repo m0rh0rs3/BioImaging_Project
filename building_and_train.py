@@ -33,10 +33,10 @@ def model_building(trainOriginals, trainLabels, testOriginals):
 
     model = tf.keras.Model(inputs, outputs)
 
-    adam = tf.keras.optimizers.Adam(learning_rate=0.0001)
-    model.compile(optimizer=adam, loss=[dice_coef_loss], metrics=[dice_coef])
+    adam = tf.keras.optimizers.Adam(learning_rate=0.00006)
+    model.compile(optimizer=adam, loss='categorical_crossentropy',metrics=['accuracy'])
     model.summary()
-
+    
     # Modelcheckpoint
     checkpointer = tf.keras.callbacks.ModelCheckpoint('model_for_nuclei.h5', verbose=1, save_best_only=True)
 
