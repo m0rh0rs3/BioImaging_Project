@@ -69,23 +69,26 @@ def keras_array_of_cases(flag: int, start: int, end: int):
 
         temp_path = DATA_LOCATION / f'case_{out:05}' / (str(type) + '.nii.gz')
 
-        # case corrisponde al numpy array di un solo case
-        case = _conversion_nii_to_data_array(temp_path)
+        #case corrisponde al numpy array di un solo case
+        case =  _conversion_nii_to_data_array(temp_path)
 
-        slice_factor = 15 / 100  # ex: su 100 slice  ne prendo 15
+        slice_factor = 15/100  #ex: su 100 slice  ne prendo 15
+        slice_totali = int(case.shape[0])
+        slice_ridotte = (slice_totali*(4/5)) - (slice_totali * (1/5)) # elimino 1/5 in alto e 1/5 in basso 
 
-        passo = int(case.shape[0] * slice_factor)
+        passo = int(slice_ridotte * slice_factor)
 
-        # per le ct con poche slice --> prendo tutte le slice : passo=1
-        if passo == 0:
-            passo = 1
+        #per le ct con poche slice --> prendo tutte le slice : passo=1
+        if passo==0:
+          passo = 1
 
-        print('Slice totali: ' + str(int(case.shape[0])))
+        print( 'Slice totali: ' + str(int(case.shape[0])) )
 
-        # Inserisco una slice alla volta, cercando di prenderle in modo uniforme
-        for j in range(0, int(case.shape[0]), passo):
-            print("Caso : " + str(out) + " slice scelta num: " + str(j) + " su slice totali: " + str(
-                int(case.shape[0])) + " con passo: " + str(passo))
-            cases.append(resize(case[j, :, :], (256, 256)))
 
+        #Inserisco una slice alla volta, cercando di prenderle in modo uniforme
+        for j in range(int(slice_totali*(1/5)), int(slice_totali*(4/5))  ,passo):
+
+          print("Caso : "+ str(out) +" slice scelta num: "+ str(j) + " su slice totali: " + str(int( case.shape[0])) + " con passo: " + str(passo) ) 
+          cases.append(resize(case[j, :, :], (256, 256)))
+        
     return np.array(cases)
