@@ -33,7 +33,13 @@ def model_building(trainOriginals, trainLabels, testOriginals):
 
     model = tf.keras.Model(inputs, outputs)
 
+     /*
     adam = tf.keras.optimizers.Adam(learning_rate=0.00006)
+    model.compile(optimizer=adam, loss='categorical_crossentropy',metrics=['accuracy'])
+    model.summary()
+    */
+    
+    adam = tf.keras.optimizers.Adam(learning_rate=lr)
     model.compile(optimizer=adam, loss='categorical_crossentropy',metrics=['accuracy'])
     model.summary()
     
