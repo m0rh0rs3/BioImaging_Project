@@ -1,30 +1,34 @@
-# BioImaging_Project
-A computer vision project for NecstCAMP NL1
+# BioImaging_Project NL1
+## Description
 
-by
-Morcavallo Pietro
+This project was the final assignment for the "Biomedical Computer Vision Course" at NecstCamp. It is based on the [Kits19 Challenge](https://github.com/neheller/kits19).
+
+## Dataset Exploration and Analysis
+First, I analyzed the dataset structure and the type of .nii files using MANGO (a CT visualizer). During this analysis, I noticed variations among different cases: not all cases have the same number of slices.
+
+## Data Preparation and Neural Network Format Conversion
+I implemented a series of functions for converting .nii files to a format compatible with the neural network (see keras_array_of_cases()), also including directory management.
+
+## Initial Data Cleaning for Anomalies
+While directly inspecting the CT scans, I noticed that some of them presented anomalies such as high contrasts and halos. To address this, I performed an initial cleaning using _normalize().
+
+## Implementation of One-Hot Encoding for Multiclass Segmentation
+I realized that for multiclass segmentation, the preferable encoding to use is one-hot encoding. Therefore, I implemented this type of conversion.
+
+## Development of U-Net Architecture and Hyperparameter Settings
+I modeled a U-Net following the standard model, thus developing the general structure of the chosen U-Net, together with its architecture and hyper-parameter settings.
+
+(Reference: 219 - Understanding U-Net architecture and building it from scratch -DigitalSreeni )
+
+## Uniform Cropping of Images for Training
+I decided to use ten images per case, uniformly cropped to include only the central part, discarding 1/5 from the top and 1/5 from the bottom, as those regions generally contain only background in the mask.
+
+## Visualization and Verification of Predictions
+To visually verify the predictions, I implemented sub-functions using matplotlib that display the test patient's CT scan, the real mask, and the predicted mask simultaneously.
+
+![img_1](https://github.com/m0rh0rs3/BioImaging_Project/blob/main/Output/out1.png)
+![img_2](https://github.com/m0rh0rs3/BioImaging_Project/blob/main/Output/out2.png)
 
 
-**STEP 1**
-Come prima cosa ho analizzato la struttura del dataset e la tipologia di file .nii, utilizzando MANGO (un visualizer per CT) con il quale ho notato la diversità fra i vari case: non tutti hanno lo stesso numero di slice.
 
-**STEP 2**
-Ho implementato una serie di funzioni per la conversione da .nii a formato compatibile con la rete neurale (vedi keras_array_of_cases() ), con la quale effettuo anche il directory management
-
-**STEP 3**
-Verificando direttamente sulle CT, ho notato che alcune presentavano delle anomali (alti contrasti, aloni...): ho effettuato quindi un prima pulizia con _normalize()
-
-**STEP 4**
-Mi sono accorto che per il multiclass segmentation l'encoding preferibile da utilizzare è quello one_hot_encoding, così ho implementato questo tipo di conversione
-
-**STEP 5**
-A questo punto ispirandomi ad un altro progetto su la costruzione generale di una UNET , ho sviluppato la unet(), la sua costruzione e il setting degli hyperparametri
-(219 - Understanding U-Net architecture and building it from scratch -DigitalSreeni on YouTube)
-
-**STEP 6** 
-Ho deciso di utilizzare una 10 di imagini per caso tagliate in modo uniforme cercando di prendere la parte centrale, eliminado quindi 1/5 in alto e 1/5 in basso dove generalmente nella mask vi è solo background
-
-**STEP 7**
-Per verificare le predizioni graficamente ho implementato, grazie a mathplotlib, delle sottofunzioni che mostrano contemporaneamente la CT del paziente test, la mask reale ,la mask predetta
-
-NB: La rete ad oggi ancora non riesce a segmentare in modo corretto i reni, penso sia dovuto ad un problema di pochi dati.
+NB: As of today, the network still struggles to correctly segment the kidneys. I suspect this issue is due to limited data availability .
